@@ -1,0 +1,649 @@
+{
+	"info": {
+		"_postman_id": "ff7cc850-9636-4fe0-ab3d-609df0cbe6f3",
+		"name": "QA RestfulApi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "46438844",
+		"_collection_link": "https://danica-6516768.postman.co/workspace/179e1711-dab8-41cb-873e-27b676511d04/collection/46438844-ff7cc850-9636-4fe0-ab3d-609df0cbe6f3?action=share&source=collection_link&creator=46438844"
+	},
+	"item": [
+		{
+			"name": "RestfulApi",
+			"item": [
+				{
+					"name": "AllObjects",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURI}}/{{objectsParametar}}",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{objectsParametar}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ListOfObjectsByIds",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURI}}/{{objectsParametar}}?id=3&id=5&id=10",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{objectsParametar}}"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "3"
+								},
+								{
+									"key": "id",
+									"value": "5"
+								},
+								{
+									"key": "id",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ObjectById",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Valid object is returned\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    var paths = pm.request.url.path;\r",
+									"    var objectId = paths[paths.length - 1];\r",
+									"\r",
+									"    pm.expect(jsonData.id).to.eql(objectId);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURI}}/{{objectsParametar}}/:id",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{objectsParametar}}",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "7"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddObject",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Your product name is valid\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.name).to.eql(\"Apple MacBook Pro 16\");\r",
+									"});\r",
+									"pm.test(\"Entered year of production is valid\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.data.year).to.eql(2019);\r",
+									"});\r",
+									"pm.test(\"Entered price is valid\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.data.price).to.eql(1849.99);\r",
+									"});\r",
+									"pm.test(\"Entered CPU model is valid\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"pm.expect(jsonData.data[\"CPU model\"]).to.eql(\"Intel Core i9\");\r",
+									"});\r",
+									"pm.test(\"Entered hard disk size is valid\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.data[\"Hard disk size\"]).to.eql(\"1 TB\");\r",
+									"});\r",
+									"pm.environment.set(\"ID\", pm.response.json().id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"name\": \"Apple MacBook Pro 16\",\r\n   \"data\": {\r\n      \"year\": 2019,\r\n      \"price\": 1849.99,\r\n      \"CPU model\": \"Intel Core i9\",\r\n      \"Hard disk size\": \"1 TB\"\r\n   }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURI}}/{{objectsParametar}}",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{objectsParametar}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateObjectById",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Price of device is updated\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.data.price).to.eql(2049.99);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Color of device is added\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.data.color).to.eql(\"silver\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"name\": \"Apple MacBook Pro 16\",\r\n   \"data\": {\r\n      \"year\": 2019,\r\n      \"price\": 2049.99,\r\n      \"CPU model\": \"Intel Core i9\",\r\n      \"Hard disk size\": \"1 TB\",\r\n      \"color\": \"silver\"\r\n   }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURI}}/{{objectsParametar}}/{{ID}}",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{objectsParametar}}",
+								"{{ID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PartialUpdateObjectById",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Device name is updated\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.name).to.eql(\"Apple MacBook Pro 18\");\r",
+									"});\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"name\": \"Apple MacBook Pro 18\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURI}}/{{objectsParametar}}/{{ID}}",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{objectsParametar}}",
+								"{{ID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteObjectById",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Wanted object is deleted\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message)\r",
+									"        .to.eql(`Object with id = ${pm.environment.get(\"ID\")} has been deleted.`);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURI}}/{{objectsParametar}}/{{ID}}",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{objectsParametar}}",
+								"{{ID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "RestfulApi Runner",
+			"item": [
+				{
+					"name": "AllObjects",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURI}}/{{objectsParametar}}",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{objectsParametar}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ListOfObjectsByIds",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURI}}/{{objectsParametar}}?id=3&id=5&id=10",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{objectsParametar}}"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "3"
+								},
+								{
+									"key": "id",
+									"value": "5"
+								},
+								{
+									"key": "id",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ObjectById",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Valid object is returned\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    var paths = pm.request.url.path;\r",
+									"    var objectId = paths[paths.length - 1];\r",
+									"\r",
+									"    pm.expect(jsonData.id).to.eql(objectId);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURI}}/{{objectsParametar}}/:objectId",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{objectsParametar}}",
+								":objectId"
+							],
+							"variable": [
+								{
+									"key": "objectId",
+									"value": "7"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddObject",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Your product name is valid\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.name).to.eql(\"Apple MacBook Pro 16\");\r",
+									"});\r",
+									"pm.test(\"Entered year of production is valid\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.data.year).to.eql(2019);\r",
+									"});\r",
+									"pm.test(\"Entered price is valid\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.data.price).to.eql(1849.99);\r",
+									"});\r",
+									"pm.test(\"Entered CPU model is valid\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"pm.expect(jsonData.data[\"CPU model\"]).to.eql(\"Intel Core i9\");\r",
+									"});\r",
+									"pm.test(\"Entered hard disk size is valid\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.data[\"Hard disk size\"]).to.eql(\"1 TB\");\r",
+									"});\r",
+									"pm.environment.set(\"ID\", pm.response.json().id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"name\": \"Apple MacBook Pro 16\",\r\n   \"data\": {\r\n      \"year\": 2019,\r\n      \"price\": 1849.99,\r\n      \"CPU model\": \"Intel Core i9\",\r\n      \"Hard disk size\": \"1 TB\"\r\n   }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURI}}/{{objectsParametar}}",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{objectsParametar}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateObjectById",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Price of device is updated\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.data.price).to.eql(2049.99);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Color of device is added\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.data.color).to.eql(\"silver\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"name\": \"Apple MacBook Pro 16\",\r\n   \"data\": {\r\n      \"year\": 2019,\r\n      \"price\": 2049.99,\r\n      \"CPU model\": \"Intel Core i9\",\r\n      \"Hard disk size\": \"1 TB\",\r\n      \"color\": \"silver\"\r\n   }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURI}}/{{objectsParametar}}/{{ID}}",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{objectsParametar}}",
+								"{{ID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PartialUpdateObjectById",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Device name is updated\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.name).to.eql(\"Apple MacBook Pro 18\");\r",
+									"});\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"name\": \"Apple MacBook Pro 18\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURI}}/{{objectsParametar}}/{{ID}}",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{objectsParametar}}",
+								"{{ID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteObjectById",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Wanted object is deleted\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message)\r",
+									"        .to.eql(`Object with id = ${pm.environment.get(\"ID\")} has been deleted.`);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURI}}/{{objectsParametar}}/{{ID}}",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{objectsParametar}}",
+								"{{ID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
